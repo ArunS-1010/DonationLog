@@ -1,8 +1,7 @@
 // src/components/Records.js
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-
-const Records = () => {
+const Records = ({ newRecord }) => {
   const [records, setRecords] = useState([])
 
   useEffect(() => {
@@ -18,10 +17,21 @@ const Records = () => {
     fetchRecords()
   }, [])
 
+  useEffect(() => {
+    if (newRecord) {
+      setRecords((prevRecords) => [...prevRecords, newRecord])
+    }
+  }, [newRecord])
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    return date.toLocaleString() // Convert to local time
+  }
+
   return (
     <div>
       <h2>Records</h2>
-      <table>
+      <table border="1">
         <thead>
           <tr>
             <th>Name</th>
@@ -42,7 +52,7 @@ const Records = () => {
               <td>{record.city}</td>
               <td>{record.state}</td>
               <td>{record.amountReceived}</td>
-              <td>{new Date(record.dateTime).toLocaleString()}</td>
+              <td>{formatDate(record.dateTime)}</td>
             </tr>
           ))}
         </tbody>

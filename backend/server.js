@@ -55,9 +55,13 @@ app.post('/login', async (req, res) => {
         .json({ success: false, message: 'Invalid credentials' })
     }
 
-    const token = jwt.sign({ userId: user._id }, 'your-secret-key', {
-      expiresIn: '1h',
-    })
+    const token = jwt.sign(
+      { userId: user._id },
+      '4dcaff5ec1015337eaf1c76d02b5a69bbd12325c7df8185db882dec4f826b6c0',
+      {
+        expiresIn: '1h',
+      }
+    )
     res.json({ success: true, token })
   } catch (error) {
     res.status(500).json({ error: 'Login failed' })
@@ -70,7 +74,10 @@ app.post('/form', async (req, res) => {
 
   try {
     // Verify the token
-    const decoded = jwt.verify(token, 'your-secret-key')
+    const decoded = jwt.verify(
+      token,
+      '4dcaff5ec1015337eaf1c76d02b5a69bbd12325c7df8185db882dec4f826b6c0'
+    )
     const user = await User.findById(decoded.userId)
 
     if (!user) {
@@ -95,6 +102,44 @@ app.get('/records', async (req, res) => {
     res.json(records)
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch records' })
+  }
+})
+
+// Edit Record Route
+app.put('/records/:id', async (req, res) => {
+  const { id } = req.params
+  const updatedData = req.body
+
+  try {
+    const updatedRecord = await Form.findByIdAndUpdate(id, updatedData, {
+      new: true,
+    })
+
+    if (!updatedRecord) {
+      return res.status(404).json({ error: 'Record not found' })
+    }
+
+    res
+      .status(200)
+      .json({ message: 'Record updated successfully', updatedRecord })
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update record' })
+  }
+})
+
+// Delete Record Route
+app.delete('/records/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    const deletedRecord = await Form.findByIdAndDelete(id)
+
+    if (!deletedRecord) {
+      return res.status(404).json({ error: 'Record not found' })
+    }
+
+    res.status(200).json({ message: 'Record deleted successfully' })
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete record' })
   }
 })
 

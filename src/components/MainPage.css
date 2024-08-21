@@ -1,0 +1,15 @@
+.tab-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.tab-btn button {
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: none;
+  margin-inline: 20px;
+}
+
+.tab-btn button:hover {
+  background-color: #ccc;
+}

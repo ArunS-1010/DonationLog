@@ -5,7 +5,7 @@ import './Records.css'
 const Records = () => {
   const [records, setRecords] = useState([])
   const [totalAmount, setTotalAmount] = useState(0)
-  const [editingRecord, setEditingRecord] = useState(null) // State to manage the record being edited
+  const [editingRecord, setEditingRecord] = useState(null) // Added this line
 
   const fetchRecords = async () => {
     try {
@@ -67,6 +67,16 @@ const Records = () => {
   }
 
   const handlePrint = (record) => {
+    const formattedDate = new Date(record.dateTime).toLocaleString('en-US', {
+      month: 'numeric',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true,
+    })
+
     const printWindow = window.open('', '_blank', 'width=400', 'height=500')
     printWindow.document.write('<html><head><title>Print</title>')
     printWindow.document.write('<style>')
@@ -129,7 +139,7 @@ const Records = () => {
     )
     printWindow.document.write(
       '<tr><td class="title">Date & Time:</td><td class="data">' +
-        record.dateTime +
+        formattedDate +
         '</td></tr>'
     )
     printWindow.document.write('</table>')
@@ -139,8 +149,91 @@ const Records = () => {
     printWindow.print()
   }
 
+  const downloadCSV = () => {
+    const csvRows = []
+
+    // Add the header row
+    const headers = [
+      'Name',
+      'Phone Number',
+      'Address',
+      'City',
+      'State',
+      'Amount Received',
+      'Date & Time',
+      'Received by',
+    ]
+    csvRows.push(headers.join(','))
+
+    // Add the data rows
+    records.forEach((record) => {
+      const row = [
+        `"${record.name}"`,
+        `"${record.phoneNumber}"`,
+        `"${record.address}"`, // Enclosed in double quotes
+        `"${record.city}"`,
+        `"${record.state}"`,
+        record.amountReceived,
+        `"${new Date(record.dateTime).toLocaleString()}"`,
+        `"${record.user.username}"`,
+      ]
+      csvRows.push(row.join(','))
+    })
+
+    // Convert the rows to a CSV string
+    const csvString = csvRows.join('\n')
+
+    // Create a Blob from the CSV string and generate a download link
+    const blob = new Blob([csvString], { type: 'text/csv' })
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.setAttribute('hidden', '')
+    a.setAttribute('href', url)
+    a.setAttribute('download', 'records.csv')
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+  }
+
   return (
     <div className="container">
+      <h2>Records</h2>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Amount Received</th>
+            <th>Date & Time</th>
+            <th>Received by</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {records.map((record) => (
+            <tr key={record._id}>
+              <td>{record.name}</td>
+              <td>{record.phoneNumber}</td>
+              <td>{record.address}</td>
+              <td>{record.city}</td>
+              <td>{record.state}</td>
+              <td>{record.amountReceived}</td>
+              <td>{new Date(record.dateTime).toLocaleString()}</td>
+              <td>{record.user.username}</td>
+              <td>
+                <button onClick={() => handleEditClick(record)}>Edit</button>
+                <button onClick={() => handleDelete(record._id)}>Delete</button>
+                <button onClick={() => handlePrint(record)}>Print</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p>Total Amount Received: {totalAmount}</p>
+
       {editingRecord && (
         <div className="modal">
           <div className="modal-content">
@@ -220,42 +313,7 @@ const Records = () => {
         </div>
       )}
 
-      <h2>Records</h2>
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Phone Number</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Amount Received</th>
-            <th>Date & Time</th>
-            <th>Received by</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {records.map((record) => (
-            <tr key={record._id}>
-              <td>{record.name}</td>
-              <td>{record.phoneNumber}</td>
-              <td>{record.address}</td>
-              <td>{record.city}</td>
-              <td>{record.state}</td>
-              <td>{record.amountReceived}</td>
-              <td>{new Date(record.dateTime).toLocaleString()}</td>
-              <td>{record.user.username}</td>
-              <td>
-                <button onClick={() => handleEditClick(record)}>Edit</button>
-                <button onClick={() => handleDelete(record._id)}>Delete</button>
-                <button onClick={() => handlePrint(record)}>Print</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p>Total Amount Received: {totalAmount}</p>
+      <button onClick={downloadCSV}>Download CSV</button>
     </div>
   )
 }

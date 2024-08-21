@@ -5,6 +5,7 @@ import './Records.css'
 const Records = () => {
   const [records, setRecords] = useState([])
   const [totalAmount, setTotalAmount] = useState(0)
+  const [editingRecord, setEditingRecord] = useState(null) // State to manage the record being edited
 
   const fetchRecords = async () => {
     try {
@@ -17,7 +18,6 @@ const Records = () => {
         0
       )
       setTotalAmount(total)
-
       setRecords(fetchedRecords)
     } catch (error) {
       console.error('Failed to fetch records:', error.message)
@@ -28,24 +28,27 @@ const Records = () => {
     fetchRecords()
   }, [])
 
-  const handleEdit = async (id) => {
-    // Gather the updated data from a form or other input
-    const updatedData = {
-      name: 'New Name',
-      phoneNumber: '1234567890',
-      address: 'New Address',
-      city: 'New City',
-      state: 'New State',
-      amountReceived: 500,
-      dateTime: new Date().toISOString(),
-    }
+  const handleEditClick = (record) => {
+    setEditingRecord(record) // Set the record being edited
+  }
 
+  const handleEditChange = (e) => {
+    const { name, value } = e.target
+    setEditingRecord((prevRecord) => ({
+      ...prevRecord,
+      [name]: value,
+    }))
+  }
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault()
     try {
       const response = await axios.put(
-        `http://localhost:5000/records/${id}`,
-        updatedData
+        `http://localhost:5000/records/${editingRecord._id}`,
+        editingRecord
       )
       console.log('Edit successful:', response.data)
+      setEditingRecord(null) // Close the modal
       fetchRecords() // Refresh the records list to show the updated data
     } catch (error) {
       console.error('Failed to edit record:', error.message)
@@ -138,6 +141,85 @@ const Records = () => {
 
   return (
     <div className="container">
+      {editingRecord && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Edit Record</h2>
+            <form onSubmit={handleEditSubmit}>
+              <label>
+                Name:
+                <input
+                  type="text"
+                  name="name"
+                  value={editingRecord.name}
+                  onChange={handleEditChange}
+                />
+              </label>
+              <label>
+                Phone Number:
+                <input
+                  type="text"
+                  name="phoneNumber"
+                  value={editingRecord.phoneNumber}
+                  onChange={handleEditChange}
+                />
+              </label>
+              <label>
+                Address:
+                <input
+                  type="text"
+                  name="address"
+                  value={editingRecord.address}
+                  onChange={handleEditChange}
+                />
+              </label>
+              <label>
+                City:
+                <input
+                  type="text"
+                  name="city"
+                  value={editingRecord.city}
+                  onChange={handleEditChange}
+                />
+              </label>
+              <label>
+                State:
+                <input
+                  type="text"
+                  name="state"
+                  value={editingRecord.state}
+                  onChange={handleEditChange}
+                />
+              </label>
+              <label>
+                Amount Received:
+                <input
+                  type="number"
+                  name="amountReceived"
+                  value={editingRecord.amountReceived}
+                  onChange={handleEditChange}
+                />
+              </label>
+              <label>
+                Date & Time:
+                <input
+                  type="datetime-local"
+                  name="dateTime"
+                  value={new Date(editingRecord.dateTime)
+                    .toISOString()
+                    .slice(0, 16)}
+                  onChange={handleEditChange}
+                />
+              </label>
+              <button type="submit">Save Changes</button>
+              <button type="button" onClick={() => setEditingRecord(null)}>
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
       <h2>Records</h2>
       <table border="1">
         <thead>
@@ -165,7 +247,7 @@ const Records = () => {
               <td>{new Date(record.dateTime).toLocaleString()}</td>
               <td>{record.user.username}</td>
               <td>
-                <button onClick={() => handleEdit(record._id)}>Edit</button>
+                <button onClick={() => handleEditClick(record)}>Edit</button>
                 <button onClick={() => handleDelete(record._id)}>Delete</button>
                 <button onClick={() => handlePrint(record)}>Print</button>
               </td>

@@ -224,9 +224,24 @@ const Records = () => {
               <td>{new Date(record.dateTime).toLocaleString()}</td>
               <td>{record.user.username}</td>
               <td>
-                <button onClick={() => handleEditClick(record)}>Edit</button>
-                <button onClick={() => handleDelete(record._id)}>Delete</button>
-                <button onClick={() => handlePrint(record)}>Print</button>
+                <button
+                  className="edit-btn btn"
+                  onClick={() => handleEditClick(record)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="delete-btn btn"
+                  onClick={() => handleDelete(record._id)}
+                >
+                  Delete
+                </button>
+                <button
+                  className="print-btn btn"
+                  onClick={() => handlePrint(record)}
+                >
+                  Print
+                </button>
               </td>
             </tr>
           ))}
@@ -293,7 +308,7 @@ const Records = () => {
                 onChange={handleEditChange}
                 required
               />
-              <label>Date & Time</label>
+              <label>Date & Time (Default)</label>
               <input
                 type="datetime-local"
                 name="dateTime"

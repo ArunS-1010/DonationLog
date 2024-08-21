@@ -16,6 +16,10 @@
   z-index: 1000;
 }
 
+.popup-overlay h3 {
+  text-align: center;
+}
+
 /* Popup */
 .popup {
   position: fixed;
@@ -77,4 +81,16 @@
 
 .popup-form button:hover {
   background-color: #45a049;
+}
+
+.btn {
+  padding: 10px 20px;
+  margin: 2px;
+  border-radius: 20px;
+  width: 80px;
+}
+
+.edit-btn {
+  /* background-color: grey; */
+  /* color: #fff; */
 }

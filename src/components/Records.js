@@ -235,79 +235,73 @@ const Records = () => {
       <p>Total Amount Received: {totalAmount}</p>
 
       {editingRecord && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Edit Record</h2>
-            <form onSubmit={handleEditSubmit}>
-              <label>
-                Name:
-                <input
-                  type="text"
-                  name="name"
-                  value={editingRecord.name}
-                  onChange={handleEditChange}
-                />
-              </label>
-              <label>
-                Phone Number:
-                <input
-                  type="text"
-                  name="phoneNumber"
-                  value={editingRecord.phoneNumber}
-                  onChange={handleEditChange}
-                />
-              </label>
-              <label>
-                Address:
-                <input
-                  type="text"
-                  name="address"
-                  value={editingRecord.address}
-                  onChange={handleEditChange}
-                />
-              </label>
-              <label>
-                City:
-                <input
-                  type="text"
-                  name="city"
-                  value={editingRecord.city}
-                  onChange={handleEditChange}
-                />
-              </label>
-              <label>
-                State:
-                <input
-                  type="text"
-                  name="state"
-                  value={editingRecord.state}
-                  onChange={handleEditChange}
-                />
-              </label>
-              <label>
-                Amount Received:
-                <input
-                  type="number"
-                  name="amountReceived"
-                  value={editingRecord.amountReceived}
-                  onChange={handleEditChange}
-                />
-              </label>
-              <label>
-                Date & Time:
-                <input
-                  type="datetime-local"
-                  name="dateTime"
-                  value={new Date(editingRecord.dateTime)
-                    .toISOString()
-                    .slice(0, 16)}
-                  onChange={handleEditChange}
-                />
-              </label>
+        <div className="popup-overlay">
+          <div className="popup">
+            <button
+              className="popup-close-button"
+              onClick={() => setEditingRecord(null)}
+            >
+              ×
+            </button>
+            <h3>Edit Record</h3>
+            <form className="popup-form" onSubmit={handleEditSubmit}>
+              <label>Name</label>
+              <input
+                type="text"
+                name="name"
+                value={editingRecord.name}
+                onChange={handleEditChange}
+                required
+              />
+              <label>Phone Number</label>
+              <input
+                type="text"
+                name="phoneNumber"
+                value={editingRecord.phoneNumber}
+                onChange={handleEditChange}
+                required
+              />
+              <label>Address</label>
+              <input
+                type="text"
+                name="address"
+                value={editingRecord.address}
+                onChange={handleEditChange}
+                required
+              />
+              <label>City</label>
+              <input
+                type="text"
+                name="city"
+                value={editingRecord.city}
+                onChange={handleEditChange}
+                required
+              />
+              <label>State</label>
+              <input
+                type="text"
+                name="state"
+                value={editingRecord.state}
+                onChange={handleEditChange}
+                required
+              />
+              <label>Amount Received</label>
+              <input
+                type="number"
+                name="amountReceived"
+                value={editingRecord.amountReceived}
+                onChange={handleEditChange}
+                required
+              />
+              <label>Date & Time</label>
+              <input
+                type="datetime-local"
+                name="dateTime"
+                value={editingRecord.dateTime.slice(0, 16)} // Truncate to match datetime-local format
+                onChange={handleEditChange}
+                required
+              />
               <button type="submit">Save Changes</button>
-              <button type="button" onClick={() => setEditingRecord(null)}>
-                Cancel
-              </button>
             </form>
           </div>
         </div>

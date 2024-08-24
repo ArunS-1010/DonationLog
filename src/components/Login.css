@@ -1,0 +1,46 @@
+.login-container {
+  /* background-color: aliceblue; */
+  min-height: 100vh;
+}
+
+.form-content {
+  align-self: center;
+  margin-top: 180px;
+}
+
+input {
+  width: 300px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.title {
+  font-size: large;
+  font-weight: 500;
+  padding: 10px 0;
+}
+
+.loginbtn,
+.signupbtn {
+  margin: 20px auto;
+  width: 100px;
+
+  border: none;
+  background-color: orangered;
+  padding: 10px 20px;
+  color: #fff;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.loginbtn:hover,
+.signupbtn:hover {
+  background-color: rgb(213, 57, 0);
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}

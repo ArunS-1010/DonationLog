@@ -1,7 +1,7 @@
-// frontend/src/SignupPage.js
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import './Login.css' // Assuming the same CSS file is being used
 
 const SignupPage = () => {
   const [error, setError] = useState(null)
@@ -27,7 +27,8 @@ const SignupPage = () => {
       navigate('/login') // Redirect to login page after successful signup
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        setError(error.response.data.message) // Display error message if username exists
+        // Display error message if username already exists
+        setError('Username already exists. Please choose another username.')
       } else {
         setError('Signup failed. Please try again.')
       }
@@ -35,22 +36,50 @@ const SignupPage = () => {
   }
 
   return (
-    <form onSubmit={handleSignup}>
-      <div>
-        <label>Username:</label>
-        <input type="text" name="username" required />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input type="password" name="password" required />
-      </div>
-      <div>
-        <label>Confirm Password:</label>
-        <input type="password" name="confirmPassword" required />
-      </div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <button type="submit">Sign Up</button>
-    </form>
+    <div className="login-container">
+      <form onSubmit={handleSignup}>
+        <div className="form-content">
+          <div className="title">
+            <label>Username:</label>
+          </div>
+          <div>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              required
+            />
+          </div>
+          <div className="title">
+            <label>Password:</label>
+          </div>
+          <div>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <div className="title">
+            <label>Confirm Password:</label>
+          </div>
+          <div>
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              required
+            />
+          </div>
+          {error && <p className="error-message">{error}</p>}{' '}
+          {/* Error message */}
+          <button className="signupbtn" type="submit">
+            Sign Up
+          </button>
+        </div>
+      </form>
+    </div>
   )
 }
 

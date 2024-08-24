@@ -2,23 +2,39 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import './Records.css'
 
-const Records = () => {
+const Records = ({ username }) => {
   const [records, setRecords] = useState([])
+  const [userRecords, setUserRecords] = useState([]) // Added this line
   const [totalAmount, setTotalAmount] = useState(0)
-  const [editingRecord, setEditingRecord] = useState(null) // Added this line
+  const [userTotalAmount, setUserTotalAmount] = useState(0) // New state for user-specific total amount
+
+  const [editingRecord, setEditingRecord] = useState(null)
 
   const fetchRecords = async () => {
     try {
       const response = await axios.get('http://localhost:5000/records')
       const fetchedRecords = response.data
 
-      // Calculate the total amount received
+      // Calculate the total amount for all records
       const total = fetchedRecords.reduce(
         (sum, record) => sum + record.amountReceived,
         0
       )
       setTotalAmount(total)
       setRecords(fetchedRecords)
+
+      // Filter records for the logged-in user
+      const userSpecificRecords = fetchedRecords.filter(
+        (record) => record.user.username === username
+      )
+      setUserRecords(userSpecificRecords)
+
+      // Calculate the total amount for user-specific records
+      const userTotal = userSpecificRecords.reduce(
+        (sum, record) => sum + record.amountReceived,
+        0
+      )
+      setUserTotalAmount(userTotal) // Set user-specific total amount
     } catch (error) {
       console.error('Failed to fetch records:', error.message)
     }
@@ -26,10 +42,10 @@ const Records = () => {
 
   useEffect(() => {
     fetchRecords()
-  }, [])
+  })
 
   const handleEditClick = (record) => {
-    setEditingRecord(record) // Set the record being edited
+    setEditingRecord(record)
   }
 
   const handleEditChange = (e) => {
@@ -48,8 +64,8 @@ const Records = () => {
         editingRecord
       )
       console.log('Edit successful:', response.data)
-      setEditingRecord(null) // Close the modal
-      fetchRecords() // Refresh the records list to show the updated data
+      setEditingRecord(null)
+      fetchRecords()
     } catch (error) {
       console.error('Failed to edit record:', error.message)
     }
@@ -59,7 +75,7 @@ const Records = () => {
     if (window.confirm('Are you sure you want to delete this record?')) {
       try {
         await axios.delete(`http://localhost:5000/records/${id}`)
-        fetchRecords() // Refresh the records list after deletion
+        fetchRecords()
       } catch (error) {
         console.error('Failed to delete record:', error.message)
       }
@@ -149,7 +165,7 @@ const Records = () => {
     printWindow.print()
   }
 
-  const downloadCSV = () => {
+  const downloadCSV = (recordsToDownload, filename) => {
     const csvRows = []
 
     // Add the header row
@@ -166,11 +182,11 @@ const Records = () => {
     csvRows.push(headers.join(','))
 
     // Add the data rows
-    records.forEach((record) => {
+    recordsToDownload.forEach((record) => {
       const row = [
         `"${record.name}"`,
         `"${record.phoneNumber}"`,
-        `"${record.address}"`, // Enclosed in double quotes
+        `"${record.address}"`,
         `"${record.city}"`,
         `"${record.state}"`,
         record.amountReceived,
@@ -189,7 +205,7 @@ const Records = () => {
     const a = document.createElement('a')
     a.setAttribute('hidden', '')
     a.setAttribute('href', url)
-    a.setAttribute('download', 'records.csv')
+    a.setAttribute('download', filename)
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -197,8 +213,76 @@ const Records = () => {
 
   return (
     <div className="container">
-      <h2>Records</h2>
-      <table border="1">
+      <p className="sub-heading">
+        Donations received by: <span>{username}</span>{' '}
+      </p>
+      <table className="user-records-table" border="1">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Amount Received</th>
+            <th>Date & Time</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {userRecords.map((record) => (
+            <tr key={record._id}>
+              <td>{record.name}</td>
+              <td>{record.phoneNumber}</td>
+              <td>{record.address}</td>
+              <td>{record.city}</td>
+              <td>{record.state}</td>
+              <td>{record.amountReceived}</td>
+              <td>{new Date(record.dateTime).toLocaleString()}</td>
+              <td>
+                <button
+                  className="edit-btn btn"
+                  onClick={() => handleEditClick(record)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="delete-btn btn"
+                  onClick={() => handleDelete(record._id)}
+                >
+                  Delete
+                </button>
+                <button
+                  className="print-btn btn"
+                  onClick={() => handlePrint(record)}
+                >
+                  Print
+                </button>
+              </td>
+            </tr>
+          ))}
+
+          <tr>
+            <td className="total" colspan="5">
+              Total Amount Received:{' '}
+            </td>
+            <td className="totalno" colspan="4">
+              {userTotalAmount}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div className="download-container">
+        <button
+          className="download-btn"
+          onClick={() => downloadCSV(userRecords, 'user-records.csv')}
+        >
+          Download
+        </button>
+      </div>
+
+      <p className="sub-heading">Overall Records</p>
+      <table className="overall-records-table" border="1">
         <thead>
           <tr>
             <th>Name</th>
@@ -245,10 +329,30 @@ const Records = () => {
               </td>
             </tr>
           ))}
+
+          <tr>
+            <td className="total" colspan="5">
+              Total Amount Received:{' '}
+            </td>
+            <td className="totalno" colspan="4">
+              {totalAmount}
+            </td>
+          </tr>
         </tbody>
       </table>
-      <p>Total Amount Received: {totalAmount}</p>
+      {/* <div className="total-amount">
+        <strong>Total Amount Received: {totalAmount}</strong>
+      </div> */}
+      <div className="download-container">
+        <button
+          className="download-btn"
+          onClick={() => downloadCSV(records, 'overall-records.csv')}
+        >
+          Download
+        </button>
+      </div>
 
+      {/* Edit Form Popup */}
       {editingRecord && (
         <div className="popup-overlay">
           <div className="popup">
@@ -321,8 +425,6 @@ const Records = () => {
           </div>
         </div>
       )}
-
-      <button onClick={downloadCSV}>Download CSV</button>
     </div>
   )
 }

@@ -2,7 +2,18 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0px 30px 20px 30px;
+  margin: 0px 10px 20px 10px;
+}
+
+.sub-heading {
+  display: flex;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 15px 10px;
+}
+.sub-heading span {
+  color: rgb(32, 99, 178);
+  margin-inline: 10px;
 }
 
 /* Overlay */
@@ -72,7 +83,8 @@
 
 .popup-form button {
   padding: 10px;
-  background-color: #4caf50;
+  /* background-color: #4caf50; */
+  background-color: rgb(0, 81, 255);
   color: white;
   border: none;
   border-radius: 4px;
@@ -80,17 +92,78 @@
 }
 
 .popup-form button:hover {
-  background-color: #45a049;
+  /* background-color: #45a049; */
+  background-color: blue;
 }
 
 .btn {
   padding: 10px 20px;
-  margin: 2px;
+  margin: 7px 2px;
   border-radius: 20px;
   width: 80px;
+
+  border: none;
+  border: 1px solid #000;
+  background-color: #2e2e2e;
+  color: #fff;
 }
 
-.edit-btn {
-  /* background-color: grey; */
-  /* color: #fff; */
+.btn:hover {
+  background-color: #fff;
+  color: #2e2e2e;
+}
+
+.download-container {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+.download-btn {
+  padding: 15px 40px;
+  border-radius: 20px;
+  border: none;
+  background-color: rgb(28, 91, 191);
+  color: #fff;
+  cursor: pointer;
+}
+.download-btn:hover {
+  background-color: rgb(25, 73, 151);
+}
+
+.container h2 {
+  text-align: center;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.container table {
+  border-collapse: collapse;
+}
+
+.container table thead tr th {
+  text-align: center;
+  padding: 10px 0px;
+  background-color: black;
+  color: #fff;
+}
+
+tr:nth-child(even) {
+  background-color: #f1f1f1d9;
+}
+
+.container table th,
+td {
+  padding: 10px 5px;
+  text-align: left;
+}
+
+.total {
+  text-align: right;
+  padding: 16px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.totalno {
+  font-weight: 500;
+  font-size: 18px;
 }

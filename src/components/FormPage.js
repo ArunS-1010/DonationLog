@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import './FormPage.css'
 
 const FormPage = () => {
   const [formData, setFormData] = useState({
@@ -36,79 +37,95 @@ const FormPage = () => {
   }
 
   return (
-    <div>
-      <h2>Fill out the form</h2>
+    <div className="form-container">
+      <h2>Enter the details</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name</label>
+        <div className="form-row">
+          <label htmlFor="name">Name : </label>
           <input
             type="text"
+            id="name"
             name="name"
             placeholder="Name"
+            required
             value={formData.name}
             onChange={handleChange}
           />
         </div>
-        <div>
-          <label>Phone Number</label>
+        <div className="form-row">
+          <label htmlFor="phoneNumber">Phone Number :</label>
           <input
             type="text"
+            id="phoneNumber"
             name="phoneNumber"
             placeholder="Phone Number"
+            required
             value={formData.phoneNumber}
             onChange={handleChange}
           />
         </div>
-        <div>
-          <label>Address</label>
+        <div className="form-row">
+          <label htmlFor="address">Address :</label>
           <input
             type="text"
+            id="address"
             name="address"
             placeholder="Address"
+            required
             value={formData.address}
             onChange={handleChange}
           />
         </div>
-        <div>
-          <label>City</label>
+        <div className="form-row">
+          <label htmlFor="city">City :</label>
           <input
             type="text"
+            id="city"
             name="city"
             placeholder="City"
+            required
             value={formData.city}
             onChange={handleChange}
           />
         </div>
-        <div>
-          <label>State</label>
+        <div className="form-row">
+          <label htmlFor="state">State :</label>
           <input
             type="text"
+            id="state"
             name="state"
+            required
             value={formData.state}
             onChange={handleChange}
             readOnly
           />
         </div>
-        <div>
-          <label>Amount Received</label>
+        <div className="form-row">
+          <label htmlFor="amountReceived">Amount Received :</label>
           <input
             type="number"
+            id="amountReceived"
             name="amountReceived"
             placeholder="Amount Received"
+            required
             value={formData.amountReceived}
             onChange={handleChange}
           />
         </div>
-        <div>
-          <label>Date & Time</label>
+        <div className="form-row">
+          <label htmlFor="dateTime">Date & Time :</label>
           <input
             type="datetime-local"
+            id="dateTime"
             name="dateTime"
+            required
             value={new Date(formData.dateTime).toISOString().slice(0, 16)}
             onChange={handleChange}
           />
         </div>
-        <button type="submit">Submit</button>
+        <button className="submit-btn" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   )

@@ -1,4 +1,5 @@
-// server.js
+require('dotenv').config() // Load environment variables from .env file
+
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
@@ -13,15 +14,14 @@ app.use(cors())
 app.use(express.json())
 
 const PORT = process.env.PORT || 5000
+const MONGODB_URI = process.env.MONGODB_URI
+const JWT_SECRET = process.env.JWT_SECRET
 
 // MongoDB Atlas connection
-mongoose.connect(
-  'mongodb+srv://user:user@cluster0.pvjaf.mongodb.net/yourdbname?retryWrites=true&w=majority',
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-)
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
 
 // Signup Route
 app.post('/signup', async (req, res) => {
@@ -55,13 +55,9 @@ app.post('/login', async (req, res) => {
         .json({ success: false, message: 'Invalid credentials' })
     }
 
-    const token = jwt.sign(
-      { userId: user._id },
-      '7aa0f2cc1a5d1a2ed948b8f0fef8888d99bbbfd1e191aaf390b2c8d2bdf8dc4f',
-      {
-        expiresIn: '1h',
-      }
-    )
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+      expiresIn: '1h',
+    })
     res.json({ success: true, token })
   } catch (error) {
     res.status(500).json({ error: 'Login failed' })
@@ -74,10 +70,7 @@ app.post('/form', async (req, res) => {
 
   try {
     // Verify the token
-    const decoded = jwt.verify(
-      token,
-      '7aa0f2cc1a5d1a2ed948b8f0fef8888d99bbbfd1e191aaf390b2c8d2bdf8dc4f'
-    )
+    const decoded = jwt.verify(token, JWT_SECRET)
     const user = await User.findById(decoded.userId)
 
     if (!user) {

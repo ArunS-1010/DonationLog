@@ -57,7 +57,7 @@ app.post('/login', async (req, res) => {
 
     const token = jwt.sign(
       { userId: user._id },
-      '4dcaff5ec1015337eaf1c76d02b5a69bbd12325c7df8185db882dec4f826b6c0',
+      '7aa0f2cc1a5d1a2ed948b8f0fef8888d99bbbfd1e191aaf390b2c8d2bdf8dc4f',
       {
         expiresIn: '1h',
       }
@@ -76,7 +76,7 @@ app.post('/form', async (req, res) => {
     // Verify the token
     const decoded = jwt.verify(
       token,
-      '4dcaff5ec1015337eaf1c76d02b5a69bbd12325c7df8185db882dec4f826b6c0'
+      '7aa0f2cc1a5d1a2ed948b8f0fef8888d99bbbfd1e191aaf390b2c8d2bdf8dc4f'
     )
     const user = await User.findById(decoded.userId)
 

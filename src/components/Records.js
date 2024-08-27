@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import './Records.css'
 
+import { FaEdit } from 'react-icons/fa'
+import { MdDelete } from 'react-icons/md'
+import { IoMdPrint } from 'react-icons/io'
+
 const Records = ({ username }) => {
   const [records, setRecords] = useState([])
   const [userRecords, setUserRecords] = useState([]) // Added this line
@@ -214,7 +218,7 @@ const Records = ({ username }) => {
   return (
     <div className="container">
       <p className="sub-heading">
-        Donations received by: <span>{username}</span>{' '}
+        Donations received by : <span>{username}</span>{' '}
       </p>
       <table className="user-records-table" border="1">
         <thead>
@@ -241,32 +245,110 @@ const Records = ({ username }) => {
               <td>{new Date(record.dateTime).toLocaleString()}</td>
               <td>
                 <button
-                  className="edit-btn btn"
+                  className="edit-btn btn "
                   onClick={() => handleEditClick(record)}
                 >
-                  Edit
+                  {/* Edit */}
+                  <FaEdit />
                 </button>
+
                 <button
                   className="delete-btn btn"
                   onClick={() => handleDelete(record._id)}
                 >
-                  Delete
+                  {/* Delete */}
+                  <MdDelete />
                 </button>
                 <button
                   className="print-btn btn"
                   onClick={() => handlePrint(record)}
                 >
-                  Print
+                  {/* Print  */}
+                  <IoMdPrint />
                 </button>
               </td>
             </tr>
           ))}
 
+          {/* Edit Form Popup */}
+          {editingRecord && (
+            <div className="popup-overlay">
+              <div className="popup">
+                <button
+                  className="popup-close-button"
+                  onClick={() => setEditingRecord(null)}
+                >
+                  ×
+                </button>
+                <h3>Edit Record</h3>
+                <form className="popup-form" onSubmit={handleEditSubmit}>
+                  <label>Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={editingRecord.name}
+                    onChange={handleEditChange}
+                    required
+                  />
+                  <label>Phone Number</label>
+                  <input
+                    type="text"
+                    name="phoneNumber"
+                    value={editingRecord.phoneNumber}
+                    onChange={handleEditChange}
+                    required
+                  />
+                  <label>Address</label>
+                  <input
+                    type="text"
+                    name="address"
+                    value={editingRecord.address}
+                    onChange={handleEditChange}
+                    required
+                  />
+                  <label>City</label>
+                  <input
+                    type="text"
+                    name="city"
+                    value={editingRecord.city}
+                    onChange={handleEditChange}
+                    required
+                  />
+                  <label>State</label>
+                  <input
+                    type="text"
+                    name="state"
+                    value={editingRecord.state}
+                    onChange={handleEditChange}
+                    required
+                  />
+                  <label>Amount Received</label>
+                  <input
+                    type="number"
+                    name="amountReceived"
+                    value={editingRecord.amountReceived}
+                    onChange={handleEditChange}
+                    required
+                  />
+                  <label>Date & Time (Default)</label>
+                  <input
+                    type="datetime-local"
+                    name="dateTime"
+                    value={editingRecord.dateTime.slice(0, 16)} // Truncate to match datetime-local format
+                    onChange={handleEditChange}
+                    required
+                  />
+                  <button type="submit">Save Changes</button>
+                </form>
+              </div>
+            </div>
+          )}
+
           <tr>
-            <td className="total" colspan="5">
+            <td className="total" colSpan="5">
               Total Amount Received:{' '}
             </td>
-            <td className="totalno" colspan="4">
+            <td className="totalno" colSpan="4">
               {userTotalAmount}
             </td>
           </tr>
@@ -281,7 +363,7 @@ const Records = ({ username }) => {
         </button>
       </div>
 
-      <p className="sub-heading">Overall Records</p>
+      <p className="sub-heading">Overall Records : </p>
       <table className="overall-records-table" border="1">
         <thead>
           <tr>
@@ -308,33 +390,38 @@ const Records = ({ username }) => {
               <td>{new Date(record.dateTime).toLocaleString()}</td>
               <td>{record.user.username}</td>
               <td>
-                <button
-                  className="edit-btn btn"
-                  onClick={() => handleEditClick(record)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="delete-btn btn"
-                  onClick={() => handleDelete(record._id)}
-                >
-                  Delete
-                </button>
-                <button
-                  className="print-btn btn"
-                  onClick={() => handlePrint(record)}
-                >
-                  Print
-                </button>
+                <div className="action-btns">
+                  <button
+                    className="edit-btn btn"
+                    onClick={() => handleEditClick(record)}
+                  >
+                    {/* Edit */}
+                    <FaEdit />
+                  </button>
+                  <button
+                    className="delete-btn btn"
+                    onClick={() => handleDelete(record._id)}
+                  >
+                    {/* Delete */}
+                    <MdDelete />
+                  </button>
+                  <button
+                    className="print-btn btn"
+                    onClick={() => handlePrint(record)}
+                  >
+                    {/* Print */}
+                    <IoMdPrint />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
 
           <tr>
-            <td className="total" colspan="5">
+            <td className="total" colSpan="5">
               Total Amount Received:{' '}
             </td>
-            <td className="totalno" colspan="4">
+            <td className="totalno" colSpan="4">
               {totalAmount}
             </td>
           </tr>
@@ -351,80 +438,6 @@ const Records = ({ username }) => {
           Download
         </button>
       </div>
-
-      {/* Edit Form Popup */}
-      {editingRecord && (
-        <div className="popup-overlay">
-          <div className="popup">
-            <button
-              className="popup-close-button"
-              onClick={() => setEditingRecord(null)}
-            >
-              ×
-            </button>
-            <h3>Edit Record</h3>
-            <form className="popup-form" onSubmit={handleEditSubmit}>
-              <label>Name</label>
-              <input
-                type="text"
-                name="name"
-                value={editingRecord.name}
-                onChange={handleEditChange}
-                required
-              />
-              <label>Phone Number</label>
-              <input
-                type="text"
-                name="phoneNumber"
-                value={editingRecord.phoneNumber}
-                onChange={handleEditChange}
-                required
-              />
-              <label>Address</label>
-              <input
-                type="text"
-                name="address"
-                value={editingRecord.address}
-                onChange={handleEditChange}
-                required
-              />
-              <label>City</label>
-              <input
-                type="text"
-                name="city"
-                value={editingRecord.city}
-                onChange={handleEditChange}
-                required
-              />
-              <label>State</label>
-              <input
-                type="text"
-                name="state"
-                value={editingRecord.state}
-                onChange={handleEditChange}
-                required
-              />
-              <label>Amount Received</label>
-              <input
-                type="number"
-                name="amountReceived"
-                value={editingRecord.amountReceived}
-                onChange={handleEditChange}
-                required
-              />
-              <label>Date & Time (Default)</label>
-              <input
-                type="datetime-local"
-                name="dateTime"
-                value={editingRecord.dateTime.slice(0, 16)} // Truncate to match datetime-local format
-                onChange={handleEditChange}
-                required
-              />
-              <button type="submit">Save Changes</button>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

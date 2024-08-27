@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0px 10px 20px 10px;
+  margin: 0px 20px 20px 20px;
 }
 
 .sub-heading {
@@ -79,12 +79,13 @@
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 95%;
 }
 
 .popup-form button {
   padding: 10px;
   /* background-color: #4caf50; */
-  background-color: rgb(0, 81, 255);
+  background-color: rgb(0, 98, 227);
   color: white;
   border: none;
   border-radius: 4px;
@@ -95,12 +96,13 @@
   /* background-color: #45a049; */
   background-color: blue;
 }
+/* popup css ends  */
 
-.btn {
-  padding: 10px 20px;
-  margin: 7px 2px;
+/* .btn {
+  padding: 10px 25px;
+  margin: 5px;
   border-radius: 20px;
-  width: 80px;
+  width: 30px;
 
   border: none;
   border: 1px solid #000;
@@ -111,6 +113,28 @@
 .btn:hover {
   background-color: #fff;
   color: #2e2e2e;
+} */
+
+.edit-btn,
+.delete-btn,
+.print-btn {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 20px;
+  background-color: #303030;
+  color: #fff;
+  width: 40px;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.edit-btn:hover,
+.delete-btn:hover,
+.print-btn:hover {
+  background-color: #e2e2e2;
+  color: #000;
+  /* transition: 0.3s ease; */
 }
 
 .download-container {

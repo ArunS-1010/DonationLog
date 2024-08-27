@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import FormPage from './FormPage'
 import Records from './Records'
 import './MainPage.css'
-// import UserIcon from '../assets/UserIcon'
 
 const MainPage = () => {
   const [activeTab, setActiveTab] = useState('form')
@@ -27,8 +26,18 @@ const MainPage = () => {
         </div>
       </div>
       <div className="tab-btn">
-        <button onClick={() => setActiveTab('form')}>Form</button>
-        <button onClick={() => setActiveTab('records')}>Records</button>
+        <button
+          className={`tab-button ${activeTab === 'form' ? 'active' : ''}`}
+          onClick={() => setActiveTab('form')}
+        >
+          Form
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'record' ? 'active' : ''}`}
+          onClick={() => setActiveTab('record')}
+        >
+          Records
+        </button>
       </div>
       <div>
         {activeTab === 'form' ? <FormPage /> : <Records username={username} />}

@@ -63,7 +63,7 @@
 
 /* Highlight active tab button */
 .tab-btn button.active {
-  background-color: #007bff; /* Active background color */
+  background-color: #006bdd; /* Active background color */
   color: #fff; /* Active text color */
 }
 
@@ -77,6 +77,5 @@
 .tab-content {
   padding: 20px;
   background-color: #fff;
-  border: 1px solid #ddd;
   border-radius: 4px;
 }

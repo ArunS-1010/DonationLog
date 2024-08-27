@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import './Records.css'
 
@@ -8,13 +8,13 @@ import { IoMdPrint } from 'react-icons/io'
 
 const Records = ({ username }) => {
   const [records, setRecords] = useState([])
-  const [userRecords, setUserRecords] = useState([]) // Added this line
+  const [userRecords, setUserRecords] = useState([])
   const [totalAmount, setTotalAmount] = useState(0)
-  const [userTotalAmount, setUserTotalAmount] = useState(0) // New state for user-specific total amount
-
+  const [userTotalAmount, setUserTotalAmount] = useState(0)
   const [editingRecord, setEditingRecord] = useState(null)
 
-  const fetchRecords = async () => {
+  // Memoized fetchRecords function
+  const fetchRecords = useCallback(async () => {
     try {
       const response = await axios.get('http://localhost:5000/records')
       const fetchedRecords = response.data
@@ -38,15 +38,16 @@ const Records = ({ username }) => {
         (sum, record) => sum + record.amountReceived,
         0
       )
-      setUserTotalAmount(userTotal) // Set user-specific total amount
+      setUserTotalAmount(userTotal)
     } catch (error) {
       console.error('Failed to fetch records:', error.message)
     }
-  }
+  }, [username])
 
+  // useEffect with memoized fetchRecords
   useEffect(() => {
     fetchRecords()
-  })
+  }, [fetchRecords])
 
   const handleEditClick = (record) => {
     setEditingRecord(record)
@@ -97,7 +98,7 @@ const Records = ({ username }) => {
       hour12: true,
     })
 
-    const printWindow = window.open('', '_blank', 'width=400', 'height=500')
+    const printWindow = window.open('', '_blank', 'width=800,height=600')
     printWindow.document.write('<html><head><title>Print</title>')
     printWindow.document.write('<style>')
     printWindow.document.write(`
@@ -128,39 +129,25 @@ const Records = ({ username }) => {
     printWindow.document.write('<div class="print-container">')
     printWindow.document.write('<table>')
     printWindow.document.write(
-      '<tr><td class="title">Name:</td><td class="data">' +
-        record.name +
-        '</td></tr>'
+      `<tr><td class="title">Name:</td><td class="data">${record.name}</td></tr>`
     )
     printWindow.document.write(
-      '<tr><td class="title">Phone no:</td><td class="data">' +
-        record.phoneNumber +
-        '</td></tr>'
+      `<tr><td class="title">Phone no:</td><td class="data">${record.phoneNumber}</td></tr>`
     )
     printWindow.document.write(
-      '<tr><td class="title">Address:</td><td class="data">' +
-        record.address +
-        '</td></tr>'
+      `<tr><td class="title">Address:</td><td class="data">${record.address}</td></tr>`
     )
     printWindow.document.write(
-      '<tr><td class="title">City:</td><td class="data">' +
-        record.city +
-        '</td></tr>'
+      `<tr><td class="title">City:</td><td class="data">${record.city}</td></tr>`
     )
     printWindow.document.write(
-      '<tr><td class="title">State:</td><td class="data">' +
-        record.state +
-        '</td></tr>'
+      `<tr><td class="title">State:</td><td class="data">${record.state}</td></tr>`
     )
     printWindow.document.write(
-      '<tr><td class="title">Amount Received:</td><td class="data">' +
-        record.amountReceived +
-        '</td></tr>'
+      `<tr><td class="title">Amount Received:</td><td class="data">${record.amountReceived}</td></tr>`
     )
     printWindow.document.write(
-      '<tr><td class="title">Date & Time:</td><td class="data">' +
-        formattedDate +
-        '</td></tr>'
+      `<tr><td class="title">Date & Time:</td><td class="data">${formattedDate}</td></tr>`
     )
     printWindow.document.write('</table>')
     printWindow.document.write('</div>')
@@ -174,6 +161,7 @@ const Records = ({ username }) => {
 
     // Add the header row
     const headers = [
+      'S No.',
       'Name',
       'Phone Number',
       'Address',
@@ -186,8 +174,9 @@ const Records = ({ username }) => {
     csvRows.push(headers.join(','))
 
     // Add the data rows
-    recordsToDownload.forEach((record) => {
+    recordsToDownload.forEach((record, index) => {
       const row = [
+        index + 1,
         `"${record.name}"`,
         `"${record.phoneNumber}"`,
         `"${record.address}"`,
@@ -218,11 +207,12 @@ const Records = ({ username }) => {
   return (
     <div className="container">
       <p className="sub-heading">
-        Donations received by : <span>{username}</span>{' '}
+        Donations received by : <span>{username}</span>
       </p>
       <table className="user-records-table" border="1">
         <thead>
           <tr>
+            <th>S No.</th>
             <th>Name</th>
             <th>Phone Number</th>
             <th>Address</th>
@@ -234,8 +224,9 @@ const Records = ({ username }) => {
           </tr>
         </thead>
         <tbody>
-          {userRecords.map((record) => (
+          {userRecords.map((record, index) => (
             <tr key={record._id}>
+              <td>{index + 1}</td> {/* Serial number */}
               <td>{record.name}</td>
               <td>{record.phoneNumber}</td>
               <td>{record.address}</td>
@@ -243,34 +234,29 @@ const Records = ({ username }) => {
               <td>{record.state}</td>
               <td>{record.amountReceived}</td>
               <td>{new Date(record.dateTime).toLocaleString()}</td>
-              <td>
+              <td width={150}>
                 <button
-                  className="edit-btn btn "
+                  className="edit-btn btn"
                   onClick={() => handleEditClick(record)}
                 >
-                  {/* Edit */}
                   <FaEdit />
                 </button>
-
                 <button
                   className="delete-btn btn"
                   onClick={() => handleDelete(record._id)}
                 >
-                  {/* Delete */}
                   <MdDelete />
                 </button>
                 <button
                   className="print-btn btn"
                   onClick={() => handlePrint(record)}
                 >
-                  {/* Print  */}
                   <IoMdPrint />
                 </button>
               </td>
             </tr>
           ))}
 
-          {/* Edit Form Popup */}
           {editingRecord && (
             <div className="popup-overlay">
               <div className="popup">
@@ -278,7 +264,7 @@ const Records = ({ username }) => {
                   className="popup-close-button"
                   onClick={() => setEditingRecord(null)}
                 >
-                  ×
+                  &times;
                 </button>
                 <h3>Edit Record</h3>
                 <form className="popup-form" onSubmit={handleEditSubmit}>
@@ -345,10 +331,10 @@ const Records = ({ username }) => {
           )}
 
           <tr>
-            <td className="total" colSpan="5">
-              Total Amount Received:{' '}
+            <td className="total" colSpan="6">
+              Total Amount Received:
             </td>
-            <td className="totalno" colSpan="4">
+            <td className="totalno" colSpan="3">
               {userTotalAmount}
             </td>
           </tr>
@@ -363,10 +349,11 @@ const Records = ({ username }) => {
         </button>
       </div>
 
-      <p className="sub-heading">Overall Records : </p>
+      <p className="sub-heading">Overall Records :</p>
       <table className="overall-records-table" border="1">
         <thead>
           <tr>
+            <th>S No.</th>
             <th>Name</th>
             <th>Phone Number</th>
             <th>Address</th>
@@ -379,8 +366,9 @@ const Records = ({ username }) => {
           </tr>
         </thead>
         <tbody>
-          {records.map((record) => (
+          {records.map((record, index) => (
             <tr key={record._id}>
+              <td>{index + 1}</td> {/* Serial number */}
               <td>{record.name}</td>
               <td>{record.phoneNumber}</td>
               <td>{record.address}</td>
@@ -389,27 +377,24 @@ const Records = ({ username }) => {
               <td>{record.amountReceived}</td>
               <td>{new Date(record.dateTime).toLocaleString()}</td>
               <td>{record.user.username}</td>
-              <td>
+              <td width={150}>
                 <div className="action-btns">
                   <button
                     className="edit-btn btn"
                     onClick={() => handleEditClick(record)}
                   >
-                    {/* Edit */}
                     <FaEdit />
                   </button>
                   <button
                     className="delete-btn btn"
                     onClick={() => handleDelete(record._id)}
                   >
-                    {/* Delete */}
                     <MdDelete />
                   </button>
                   <button
                     className="print-btn btn"
                     onClick={() => handlePrint(record)}
                   >
-                    {/* Print */}
                     <IoMdPrint />
                   </button>
                 </div>
@@ -418,8 +403,8 @@ const Records = ({ username }) => {
           ))}
 
           <tr>
-            <td className="total" colSpan="5">
-              Total Amount Received:{' '}
+            <td className="total" colSpan="6">
+              Total Amount Received:
             </td>
             <td className="totalno" colSpan="4">
               {totalAmount}
@@ -427,9 +412,6 @@ const Records = ({ username }) => {
           </tr>
         </tbody>
       </table>
-      {/* <div className="total-amount">
-        <strong>Total Amount Received: {totalAmount}</strong>
-      </div> */}
       <div className="download-container">
         <button
           className="download-btn"

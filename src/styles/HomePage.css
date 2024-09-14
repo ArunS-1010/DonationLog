@@ -1,0 +1,111 @@
+/* .home-container {
+  text-align: center;
+   min-height: 100vh;
+}
+.home-container h1 {
+  margin: 0;
+}
+
+.home-contents {
+  padding: 200px 0px;
+}
+
+.user_admin_cards {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-container {
+  padding: 20px;
+}
+
+.home-container button {
+  margin: 10px 20px;
+  padding: 10px 25px;
+  margin-inline: 20px;
+
+  border-radius: 20px;
+  cursor: pointer;
+
+  background-color: rgba(255, 68, 0, 0.979);
+  color: #fff;
+  border: none;
+}
+
+.home-container button:hover {
+  background-color: rgba(211, 56, 0, 0.979);
+} */
+
+/* HomePage.css */
+
+/* Basic reset for margins and paddings */
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 160px;
+  /* justify-content: center; */
+  max-height: 100vh;
+  /* background-color: #f0f0f0bc;  */
+}
+
+.home-contents {
+  text-align: center;
+}
+
+.heading {
+  margin-bottom: 20px;
+}
+
+.user_admin_cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Space between cards */
+}
+
+.user-container,
+.admin-container {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 50px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card_title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.login_button {
+  background-color: rgba(255, 68, 0, 0.979);
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  margin-inline: 20px;
+  border-radius: 20px;
+  width: 90px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login_button:hover {
+  background-color: rgba(211, 56, 0, 0.979);
+}
+
+.user_admin_cards {
+  width: 100%;
+  max-width: 800px;
+  justify-content: space-between;
+}

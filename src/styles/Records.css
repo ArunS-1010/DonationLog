@@ -1,0 +1,265 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0px 20px 20px 20px;
+}
+
+.sub-heading {
+  display: flex;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 15px 10px;
+}
+.sub-heading span {
+  color: rgb(32, 99, 178);
+  margin-inline: 10px;
+}
+
+.sub-heading2 {
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 5px 10px;
+  margin: 20px 0;
+}
+
+.admin {
+  display: flex;
+  justify-content: right;
+  font-weight: 600;
+  font-size: 18px;
+  margin: 10px 10px 0 0;
+  color: rgb(32, 99, 178);
+}
+
+.user-records-table {
+  margin-top: 10px;
+}
+
+/* Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.popup-overlay h3 {
+  text-align: center;
+}
+
+/* Popup */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+}
+
+/* Close Button */
+.popup-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* Form Inputs */
+.popup-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.popup-form input,
+.popup-form textarea,
+.popup-form select {
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 95%;
+}
+
+.popup-form button {
+  padding: 10px;
+  /* background-color: #4caf50; */
+  background-color: rgb(0, 98, 227);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popup-form button:hover {
+  /* background-color: #45a049; */
+  background-color: blue;
+}
+/* popup css ends  */
+
+/* .btn {
+  padding: 10px 25px;
+  margin: 5px;
+  border-radius: 20px;
+  width: 30px;
+
+  border: none;
+  border: 1px solid #000;
+  background-color: #2e2e2e;
+  color: #fff;
+}
+
+.btn:hover {
+  background-color: #fff;
+  color: #2e2e2e;
+} */
+
+.edit-btn,
+.delete-btn,
+.print-btn {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 20px;
+  background-color: #303030;
+  color: #fff;
+  width: 40px;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.edit-btn:hover,
+.delete-btn:hover,
+.print-btn:hover {
+  background-color: #e2e2e2;
+  color: #000;
+  /* transition: 0.3s ease; */
+}
+
+.download-container {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+.download-btn {
+  padding: 15px 40px;
+  border-radius: 20px;
+  border: none;
+  background-color: rgb(28, 91, 191);
+  color: #fff;
+  cursor: pointer;
+  margin-inline: 5px;
+}
+.download-btn:hover {
+  background-color: rgb(25, 73, 151);
+}
+
+.container h2 {
+  text-align: center;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.container table {
+  border-collapse: collapse;
+}
+
+.container table thead tr th {
+  text-align: center;
+  padding: 10px 0px;
+  background-color: black;
+  color: #fff;
+}
+
+tr:nth-child(even) {
+  background-color: #f1f1f1d9;
+}
+
+.container table th,
+td {
+  padding: 10px 5px;
+  text-align: left;
+}
+
+.total {
+  text-align: right;
+  padding: 16px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.totalno {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+/* the search bar */
+.search-bar {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.search-bar input {
+  padding: 8px 32px 8px 8px; /* Extra padding on the right for the icon */
+  font-size: 16px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-icon {
+  /* position: absolute; */
+  margin-inline: 10px;
+  left: 8px;
+  font-size: 20px;
+  color: #888;
+}
+
+.search-filter-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.filter-bar input {
+  padding: 5px;
+  margin-inline: 5px;
+  width: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.filter-bar select {
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  color: #656565;
+}
+.filter-bar span {
+  margin-inline: 7px;
+  font-size: 22px;
+  color: #888;
+}

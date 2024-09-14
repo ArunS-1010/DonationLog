@@ -1,0 +1,27 @@
+.otp-container {
+  text-align: center;
+}
+
+.otp-content {
+  padding: 50px;
+}
+
+.otp-content input {
+  margin: 30px 0 0 0;
+}
+
+.otp-btn-container {
+  margin: 20px 10px;
+}
+
+.otp-btn {
+  width: 100px;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  background-color: rgb(0, 165, 0);
+  color: #fff;
+}
+.otp-btn:hover {
+  background-color: rgb(0, 140, 0);
+}

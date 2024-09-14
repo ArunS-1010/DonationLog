@@ -1,0 +1,82 @@
+/* .header {
+  margin-top: 40px;
+}
+
+.tab-btn {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.tab-btn button {
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: none;
+  margin-inline: 20px;
+}
+
+.tab-btn button:hover {
+  background-color: #ccc;
+} */
+
+/* Container for the header section */
+/* .header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+} */
+
+/* Style for the username display */
+
+.username-display {
+  font-size: 16px;
+  text-align: end;
+}
+.username {
+  font-weight: 700;
+}
+.username span {
+  font-weight: 600;
+  color: rgb(32, 99, 178);
+}
+
+/* Container for tab buttons */
+.tab-btn {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+/* Style for tab buttons */
+.tab-btn button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 4px;
+  background-color: #e9ecef; /* Default non-active background color */
+  color: #333; /* Default non-active text color */
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Highlight active tab button */
+.tab-btn button.active {
+  background-color: #006bdd; /* Active background color */
+  color: #fff; /* Active text color */
+}
+
+/* Hover effect for tab buttons */
+.tab-btn button:hover {
+  background-color: #0056b3; /* Darker color on hover */
+  color: #fff; /* White text on hover */
+}
+
+/* Container for the tab content */
+.tab-content {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+}

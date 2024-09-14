@@ -1,0 +1,28 @@
+.otppage-content {
+  text-align: center;
+}
+
+.otppage h3 {
+  text-align: center;
+  margin: 60px 0 40px 0;
+}
+
+.otp-btn {
+  margin: 20px 5px;
+}
+
+.otp-btn button {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: rgb(0, 185, 22);
+  color: #fff;
+}
+.otp-btn button:hover {
+  background-color: rgb(0, 144, 17);
+  transition: 0.3s ease;
+}
+
+.otp-message {
+  text-align: center;
+}

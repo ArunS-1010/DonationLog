@@ -20,7 +20,7 @@ const AdminPage = ({ username }) => {
 
   const fetchRecords = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:5000/records')
+      const response = await axios.get('https://donationlog-backend.onrender.com/records')
       const fetchedRecords = response.data
       const total = fetchedRecords.reduce(
         (sum, record) => sum + Number(record.amountReceived),
@@ -53,7 +53,7 @@ const AdminPage = ({ username }) => {
     e.preventDefault()
     try {
       const response = await axios.put(
-        `http://localhost:5000/records/${editingRecord._id}`,
+        `https://donationlog-backend.onrender.com/records/${editingRecord._id}`,
         editingRecord
       )
       console.log('Edit successful:', response.data)
@@ -67,7 +67,7 @@ const AdminPage = ({ username }) => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this record?')) {
       try {
-        await axios.delete(`http://localhost:5000/records/${id}`)
+        await axios.delete(`https://donationlog-backend.onrender.com/records/${id}`)
         fetchRecords()
       } catch (error) {
         console.error('Failed to delete record:', error.message)

@@ -30,7 +30,7 @@ const AdminSignupPage = () => {
     }
 
     try {
-      await axios.post('http://localhost:5000/admin/signup', {
+      await axios.post('https://donationlog-backend.onrender.com/admin/signup', {
         username,
         password,
         email, // Use the email from state

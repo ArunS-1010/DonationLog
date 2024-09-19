@@ -11,7 +11,7 @@ const EmailVerifyPage = () => {
 
   const sendOTP = async () => {
     try {
-      await axios.post('http://localhost:5000/send-otp', { email })
+      await axios.post('https://donationlog-backend.onrender.com/send-otp', { email })
       setIsOtpSent(true)
       setMessage('OTP sent to your email')
     } catch (error) {
@@ -30,7 +30,7 @@ const EmailVerifyPage = () => {
 
   const verifyOTP = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/verify-otp', {
+      const response = await axios.post('https://donationlog-backend.onrender.com/verify-otp', {
         email,
         otp,
       })

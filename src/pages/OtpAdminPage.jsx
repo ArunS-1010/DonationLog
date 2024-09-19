@@ -12,7 +12,7 @@ const OtpAdminPage = () => {
 
   const sendOtp = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/send-otp', {
+      const response = await axios.post('https://donationlog-backend.onrender.com/send-otp', {
         email,
       })
       setIsOtpSent(true)
@@ -24,7 +24,7 @@ const OtpAdminPage = () => {
 
   const verifyOtp = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/verify-otp', {
+      const response = await axios.post('https://donationlog-backend.onrender.com/verify-otp', {
         otp,
       })
       console.log('OTP Response:', response.data) // Debug: Log the response

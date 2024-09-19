@@ -26,7 +26,7 @@ const FormPage = () => {
         throw new Error('No token found')
       }
 
-      await axios.post('http://localhost:5000/form', {
+      await axios.post('https://donationlog-backend.onrender.com/form', {
         ...formData,
         token,
       })

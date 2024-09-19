@@ -31,7 +31,7 @@ const SignupPage = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/signup', {
+      const response = await axios.post('https://donationlog-backend.onrender.com/signup', {
         username,
         password,
         email, // Use the email from state
